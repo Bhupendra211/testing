@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal with Custom Popover</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Custom Popover Styles */
+        .custom-popover {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1050; /* Adjusted z-index value */
+        }
+
+        .popover-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+
+        .popover-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .popover-table th,
+        .popover-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .popover-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Button to open the modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#gfg">
+    Open Modal
+</button>
+
+<!-- Modal Content -->
+<div class="modal fade" id="gfg" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Batch Details</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col">Batch</th>
+                        <th scope="col">Students</th>
+                        <th scope="col">View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td scope="row">A- 8 To 9 AM</td>
+                        <td>2</td>
+                        <td class="text-primary view-btn" style="cursor: pointer;">View</td>
+                    </tr>
+                    
+                    <!-- Additional rows... -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Popover -->
+<div id="customPopover" class="custom-popover" style="display: none;">
+    <span class="popover-close" onclick="closePopover()">X</span>
+    <h3>Popover Title</h3>
+    <table class="popover-table">
+        <thead>
+        <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+            <th>Header 3</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+            <td>Data 3</td>
+        </tr>
+        <tr>
+            <td>Data 4</td>
+            <td>Data 5</td>
+            <td>Data 6</td>
+        </tr>
+        <!-- Additional rows... -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Function to show the popover
+    function showPopover() {
+        var popover = document.getElementById("customPopover");
+        popover.style.display = "block";
+
+        // Position the popover next to the clicked button
+        var btn = event.target;
+        var btnRect = btn.getBoundingClientRect();
+        var popoverRect = popover.getBoundingClientRect();
+        popover.style.top = (btnRect.top + btnRect.height / 2 - popoverRect.height / 2) + "px";
+        popover.style.left = (btnRect.right + 10) + "px";
+    }
+
+    // Function to close the popover
+    function closePopover() {
+        var popover = document.getElementById("customPopover");
+        popover.style.display = "none";
+    }
+
+    // Function to close the popover when the modal is closed
+    $('#gfg').on('hidden.bs.modal', function (e) {
+        closePopover();
+    });
+
+    // Attach click event to view buttons
+    $(document).ready(function () {
+        $(".view-btn").click(function () {
+            showPopover();
+        });
+    });
+</script>
+
+</body>
+</html>
